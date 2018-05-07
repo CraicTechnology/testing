@@ -18,8 +18,7 @@ if [ $# -gt 0 ]; then
 
 	if [ "$1" == "artisan" ]; then
 		shift 1
-		$COMPOSE run --rm \
-			-w /var/www/html \
+		docker-compose run --rm -w /var/www/html \
 			app \
 			php artisan "$@"
 
@@ -27,16 +26,13 @@ if [ $# -gt 0 ]; then
 	# inside new container
 	elif [ "$1" == "composer" ]; then
 		shift 1
-		$COMPOSE run --rm \
-			-w /var/www/html
-			app \
-			composer "$@"
+		docker-compose run --rm -w /var/www/html app composer "$@"
 
 	# if "test" is used, run unit tests
 	# pass thru any exta arguments to php-unit
 	elif [ "$1" == "test" ]; then
 		shift 1
-		$COMPOSE run --rm \
+		docker-compose run --rm \
 			-w /var/www/html \
 			app \
 			./vendor/bin/phpunit "$@"
