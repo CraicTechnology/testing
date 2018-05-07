@@ -1,24 +1,24 @@
 #!groovy
 
-node('master') {
+pipeline {
 
-	try {
+	agent any
+
+	stages {
 
 		stage('Build') {
 			steps {
 				git url: 'git@github.com:CraicTechnology/testing.git'
 
-				// start services
+				// bring up containers
 				sh "./develop up -d --build"
 			}
 		}
 
-	} catch (error) {
-		throw error
-	} finally {
-		// shut down docker-compose
-		sh './develop down'
-		sh 'docker-cleanup'
+		stage('Test') {
+			sh "./develop test"
+		}
+
 	}
 
 }
