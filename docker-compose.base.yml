@@ -17,8 +17,8 @@ services:
       context: ./docker/app
       dockerfile: web.dockerfile
     image: localhost:5000/testing_web
-    volumes_from:
-      - app
+    volumes:
+      - .:/var/www/html
     networks:
       - laradocker
     ports:
