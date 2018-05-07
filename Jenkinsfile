@@ -5,7 +5,7 @@ pipeline {
       steps {
         git 'git@github.com:CraicTechnology/testing.git'
         sh 'whoami'
-        sh 'docker-compose -f docker-compose.dev.yml up -d --build'
+        sh './develop up -d --build'
       }
     }
   }
