@@ -4,7 +4,7 @@ pipeline {
     stage('Build') {
       steps {
         git 'git@github.com:CraicTechnology/testing.git'
-        sh './docker-compose -f docker-compose.dev.yml up -d --build'
+        sh './develop up -d --build'
       }
     }
   }
