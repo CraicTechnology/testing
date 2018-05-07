@@ -16,7 +16,9 @@ pipeline {
 		}
 
 		stage('Test') {
-			sh "./develop test"
+			steps {
+				sh "./develop test"
+			}
 		}
 
 	}
