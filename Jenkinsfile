@@ -1,14 +1,16 @@
 #!groovy
 
-node('') {
+node('master') {
 
 	try {
 
 		stage('Build') {
-			git url: 'git@github.com:CraicTechnology/testing.git'
+			steps {
+				git url: 'git@github.com:CraicTechnology/testing.git'
 
-			// start services
-			sh "./develop up -d --build"
+				// start services
+				sh "./develop up -d --build"
+			}
 		}
 
 	} catch (error) {
