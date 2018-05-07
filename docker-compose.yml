@@ -31,3 +31,12 @@ services:
       - redisdata:/data
     networks:
       - laradocker
+
+networks:
+  laradocker:
+    driver: "bridge"
+
+volumes:
+  redisdata:
+    driver: "local"
+    

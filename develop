@@ -9,19 +9,16 @@ export TZ=${TZ:-UTC}
 # dockerfile to use
 COMPOSE_FILE="dev"
 
-# users of docker containers
-DOCKER_USER_APP="www-data"
-
 # disable pseudo-TTY allocation for CI
 TTY=""
 
-COMPOSE="docker-compose -f docker-compose.$COMPOSE_FILE.yml"
+COMPOSE="docker-compose -f docker-compose.yml"
 
 if [ $# -gt 0 ]; then
 
 	if [ "$1" == "artisan" ]; then
 		shift 1
-		$COMPOSE run --rm $TTY \
+		$COMPOSE run --rm \
 			-w /var/www/html \
 			app \
 			php artisan "$@"
@@ -30,7 +27,7 @@ if [ $# -gt 0 ]; then
 	# inside new container
 	elif [ "$1" == "composer" ]; then
 		shift 1
-		$COMPOSE run --rm $TTY \
+		$COMPOSE run --rm \
 			-w /var/www/html
 			app \
 			composer "$@"
@@ -39,14 +36,13 @@ if [ $# -gt 0 ]; then
 	# pass thru any exta arguments to php-unit
 	elif [ "$1" == "test" ]; then
 		shift 1
-		$COMPOSE run --rm $TTY \
+		$COMPOSE run --rm \
 			-w /var/www/html \
 			app \
 			./vendor/bin/phpunit "$@"
 
 	else 
 		$COMPOSE "$@"
-
 	fi
 
 else
