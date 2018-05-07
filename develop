@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# Environment variables
+export APP_ENV=${APP_ENV:-local}
+export TZ=${TZ:-UTC}
+export PUID=${id -u `whoami`}
+export PGID=${id -g `whoami`}
+
+# dockerfile to use
+COMPOSE_FILE="dev"
+
+# users of docker containers
+DOCKER_USER_APP="www-data"
+
+# disable pseudo-TTY allocation for CI
+TTY=""
+
+COMPOSE="docker-compose -f docker-compose.$COMPOSE_FILE.yml"
+
+if [ $# -gt 0 ]; then
+
+	if [ "$1" == "artisan" ]; then
+		shift 1
+		$COMPOSE run --user="$DOCKER_USER_APP" --rm $TTY \
+			-w /var/www/html \
+			app \
+			php artisan "$@"
+
+	# if "composer" is used pass-thru to "composer"
+	# inside new container
+	elif [ "$1" == "composer" ]; then
+		shift 1
+		$COMPOSE run --user="$DOCKER_USER_APP" --rm $TTY \
+			-w /var/www/html
+			app \
+			composer "$@"
+
+	# if "test" is used, run unit tests
+	# pass thru any exta arguments to php-unit
+	elif [ "$1" == "test" ]; then
+		shift 1
+		$COMPOSE run --user="$DOCKER_USER_APP" --rm $TTY \
+			-w /var/www/html \
+			app \
+			./vendor/bin/phpunit "$@"
+
+	else 
+		$COMPOSE "$@"
+
+	fi
+
+else
+	$COMPOSE ps
+fi

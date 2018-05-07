@@ -1,0 +1,27 @@
+version: '2'
+services:
+
+  # app phpfpm
+  app:
+    extends:
+      file: docker-compose.base.yml
+      service: app
+
+  # web nginx
+  web:
+    extends:
+      file: docker-compose.base.yml
+      service: web
+
+  redis:
+    extends:
+      file: docker-compose.base.yml
+      service: redis
+
+networks:
+  laradocker:
+    driver: "bridge"
+
+volumes:
+  redisdata:
+    driver: "local"

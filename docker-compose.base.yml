@@ -1,0 +1,33 @@
+version: '2'
+services:
+  # phpfpm - app
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: app.dockerfile
+    image: localhost:5000/testing_app
+    volumes:
+      - .:/var/www/html
+    networks:
+      - laradocker
+
+  #nginx
+  web:
+    build:
+      context: ./docker/app
+      dockerfile: web.dockerfile
+    image: localhost:5000/testing_web
+    volumes_from:
+      - app
+    networks:
+      - laradocker
+    ports:
+      - 80:80
+
+  # redis
+  redis:
+    image: redis:alpine
+    volumes:
+      - redisdata:/data
+    networks:
+      - laradocker
