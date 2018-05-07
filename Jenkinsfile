@@ -7,12 +7,12 @@ pipeline {
         sh 'whoami'
         sh 'chmod 755 ./develop'
         sh './develop up -d --build'
+        sh './develop composer install'
       }
     }
     stage('CleanUp') {
       steps {
         sh './develop down'
-        sh 'docker-cleanup'
       }
     }
   }
