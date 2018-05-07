@@ -10,6 +10,11 @@ pipeline {
         sh './develop composer install'
       }
     }
+    stage('Test') {
+      steps {
+        sh './vendor/bin/phpunit'
+      }
+    }
     stage('CleanUp') {
       steps {
         sh './develop down'
