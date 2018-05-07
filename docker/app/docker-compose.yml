@@ -1,0 +1,36 @@
+version: "2"
+services:
+
+  # php
+  phpfpm:
+    build:
+      context: ./
+      dockerfile: ./app.dockerfile
+    image: localhost:5000/testing_app
+    volumes:
+      - ../../:/var/www/html
+    networks:
+      - appnet
+
+  # nginx
+  webserver:
+    build:
+      context: ./
+      dockerfile: ./web.dockerfile
+    image: localhost:5000/testing_web
+    volumes_from:
+      - phpfpm
+    networks:
+      - appnet
+    ports:
+      - 80:80
+
+  # redis
+  redis:
+    image: redis:alpine
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: "bridge"

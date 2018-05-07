@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# build app
+docker build -f app/app.dockerfile -t localhost:5000/testing_app:latest ./app
+docker build -f app/web.dockerfile -t localhost:5000/testing_web:latest ./app
