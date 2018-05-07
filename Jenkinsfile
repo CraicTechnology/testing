@@ -17,21 +17,21 @@ node('master') {
 			sh 'php artisan key:generate'
 		}
 
-		stage('test') {
-			sh './vendor/bin/phpunit'
-		}
+		// stage('test') {
+		// 	sh './vendor/bin/phpunit'
+		// }
 
-		if(env.BRANCH_NAME == 'master') {
-			stage('package') {
-				sh './docker/build'
-			}
-		}
+		// if(env.BRANCH_NAME == 'master') {
+		// 	stage('package') {
+		// 		sh './docker/build'
+		// 	}
+		// }
 
 	} catch(error) {
 		// alerting?
 		throw error
 	} finally {
 		// docker-compose down to turn off all the containers
-		sh './docker-compose down'
+		// sh './docker-compose down'
 	}
 }
