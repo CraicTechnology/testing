@@ -3,8 +3,8 @@
 # Environment variables
 export APP_ENV=${APP_ENV:-local}
 export TZ=${TZ:-UTC}
-export PUID=${id -u `whoami`}
-export PGID=${id -g `whoami`}
+#export PUID=${id -u `whoami`}
+#export PGID=${id -g `whoami`}
 
 # dockerfile to use
 COMPOSE_FILE="dev"
@@ -21,7 +21,7 @@ if [ $# -gt 0 ]; then
 
 	if [ "$1" == "artisan" ]; then
 		shift 1
-		$COMPOSE run --user="$DOCKER_USER_APP" --rm $TTY \
+		$COMPOSE run --rm $TTY \
 			-w /var/www/html \
 			app \
 			php artisan "$@"
@@ -30,7 +30,7 @@ if [ $# -gt 0 ]; then
 	# inside new container
 	elif [ "$1" == "composer" ]; then
 		shift 1
-		$COMPOSE run --user="$DOCKER_USER_APP" --rm $TTY \
+		$COMPOSE run --rm $TTY \
 			-w /var/www/html
 			app \
 			composer "$@"
@@ -39,7 +39,7 @@ if [ $# -gt 0 ]; then
 	# pass thru any exta arguments to php-unit
 	elif [ "$1" == "test" ]; then
 		shift 1
-		$COMPOSE run --user="$DOCKER_USER_APP" --rm $TTY \
+		$COMPOSE run --rm $TTY \
 			-w /var/www/html \
 			app \
 			./vendor/bin/phpunit "$@"
