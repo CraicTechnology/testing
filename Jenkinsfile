@@ -9,9 +9,10 @@ pipeline {
         sh './develop up -d --build'
       }
     }
-    stage('Shutdown Containers') {
+    stage('CleanUp') {
       steps {
-        sh 'docker-compose down'
+        sh './develop down'
+        sh 'docker-cleanup'
       }
     }
   }
