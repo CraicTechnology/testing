@@ -1,16 +1,17 @@
-#!/usr/bin/env groovy
+#!groovy
 
-node('master') {
+node('') {
+
 	try {
-		
-		stage('build') {
-			git url: 'git@github.com:CraicTechnology/testing.git'
+
+		stage('Build') {
+			// 
 		}
 
-	} catch(error) {
+	} catch (error) {
 		throw error
 	} finally {
-		// docker-compose down to turn off all the containers
-		sh './develop down'
+		// shut down docker-compose
 	}
+
 }
