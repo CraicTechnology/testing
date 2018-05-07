@@ -11,7 +11,7 @@ pipeline {
 				git url: 'git@github.com:CraicTechnology/testing.git'
 
 				// bring up containers
-				sudo sh "./develop up -d --build"
+				sh "./docker-compose -f docker-compose.dev.yml up -d --build"
 			}
 		}
 
